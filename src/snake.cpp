@@ -60,9 +60,10 @@ Snake::Snake(int length)
     this->direction = right;
     this->head = *(this->snake_body_vector->at(this->snake_body_vector->size()-1));
 }
-
+// randomowe pokazywanie sie jedzenia .
 void Snake::createApple()
 {
+
     srand(time(NULL));
     bool same = true;
     int i = 0;
@@ -85,7 +86,7 @@ void Snake::createApple()
         }
     }
 }
-
+//poruszanie sie snake na polu.
 void Snake::move(){
     cdT* coordinate = new cdT();
     switch(this->direction)
@@ -134,7 +135,7 @@ bool Snake::AteApple()
     if (this->head.y == this->apple.y && this->head.x == this->apple.x) return true;
     else return false;
 }
-
+// poruszanie sie snake na polu , kiedy snake wejdzie na pole gdzie jest jedzenie powieksza sie .
 void Snake::grow()
 {
     cdT* coordinate = new cdT();
@@ -225,27 +226,11 @@ void clrScreen(int stuff)
     printf("\r");
 }
 
-void printgamename()
-{
-    printf("   00000    00000   0000       0       00000     \n\r");
-    printf("       0    O       0   0     0 O     0     0    \n\r");
-    printf("       0    O0000   0000     0   0   0           \n\r");
-    printf("   0   0    O       0   0   000000O   0     0    \n\r");
-    printf("    000     O0000   0000   0       0   00000     \n\r");
-    printf("\n\r");
-    printf("             00000     ooo    ooooo              \n\r");
-    printf("             0    0     o    o                   \n\r");
-    printf("             00000      o     ooooo              \n\r");
-    printf("             0          o          o             \n\r");
-    printf("             0         ooo    ooooo              \n\r");
-    printf("\n\r\n\r");
-    printf("*************************************************\n\r");
-    printf("\n\r\n\r\n\r\n\r");
-}
 
-stateT controlsMenu()
+stateT initGame()
 {
     clrScreen(120);
+
     printf("************** Controls **************\n\r");
     printf("             UP:     w\n\r");
     printf("             DOWN:   s\n\r");
@@ -253,29 +238,9 @@ stateT controlsMenu()
     printf("             RIGHT:  d\n\r");
     printf("             PAUSE:  p\n\r");
     printf("\n\r\n\r");
-    printf("       Press 1 to return to menu\n\r");
-    char input;
-    input = getchar();
-    while (true)
-    {
-        switch(input)
-        {
-        case '1':
-            return start;
-        default:
-            input = getchar();
-            break;
-        }
-    }
-}
-
-stateT initGame()
-{
-    clrScreen(120);
-    printgamename();
     printf("********************** Main Menu ***********************\n\r");
-    printf("       START GAME        QUIT           CONTROLS\n\r");
-    printf("         Press 1        Press 2          Press 3\n\r");
+    printf("       START GAME                        QUIT           \n\r");
+    printf("         Press 1                        Press 2         \n\r");
     char input;
     input = getchar();
     while (true)
@@ -318,7 +283,6 @@ stateT initPauseScreen()
             break;
         }
     }
-
 }
 
 int main(void)
@@ -333,21 +297,15 @@ int main(void)
         {
         case start:
         {
+            //domysla dlugosc poczatkowa = 8
             if (gamecount > 0) Fred_The_Snake = new Snake(8);
             gamestate = initGame();
             gamecount = 1;
             break;
         }
 
-        case controls:
-        {
-            gamestate = controlsMenu();
-            break;
-        }
-
         case pregame:
         {
-            //domysla dlugosc poczatkowa = 8
             Fred_The_Snake->createApple();
             Fred_The_Snake->print();
             gamestate = ingame;
