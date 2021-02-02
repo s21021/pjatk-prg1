@@ -1,3 +1,6 @@
-//
-// Created by jakub on 02.02.2021.
-//
+#include <iostream>
+#include <string>
+
+auto search(int a[], int n, int needle) -> int{
+
+}

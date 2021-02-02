@@ -3,14 +3,13 @@
 
 auto amin(int a[], int n ) -> void {
 
-    int najwieksza = a[0];
+    int najmniejsza = a[0];
 
-    for (auto i = 0; i < n ; i++){
-        if (a[i] < najwieksza) {
-            std::cout << a[i] << " ";
-        }
+    for (auto i = 1; i < n ; i++){
+        if (a[i] < najmniejsza) najmniejsza = a[i];
+
     }
-    std::cout << std::endl;
+    std::cout << najmniejsza << std::endl;
 }
 int main (){
     const int n = 10;

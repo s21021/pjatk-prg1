@@ -6,12 +6,9 @@ auto amax(int a[], int n ) -> void {
     int najwieksza = a[0];
 
     for (auto i = 1; i < n ; i++){
-        if (a[i] > najwieksza) {
-            std::cout << a[i] << " ";
-        }
-
+        if (a[i] > najwieksza) najwieksza = a[i];
     }
-    std::cout << std::endl;
+    std::cout << najwieksza << std::endl;
 }
 int main (){
     const int n = 10;
