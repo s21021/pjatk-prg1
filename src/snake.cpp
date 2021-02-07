@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <vector>
 
+// g++ -std=c++17 -o The_Snake_Game snake.cpp -lncurses
+
 int gridsize = 30;
 int upper = gridsize-4;
 int lower = 4;
@@ -293,39 +295,33 @@ int main(void)
     initscr();
     while (true)
     {
-        switch(gamestate)
-        {
-        case start:
-        {
-            //domysla dlugosc poczatkowa = 8
-            if (gamecount > 0) Fred_The_Snake = new Snake(8);
+        switch(gamestate) {
+        case start: {
+            // domysla dlugosc poczatkowa = 8
+            if (gamecount > 0)
+                Fred_The_Snake = new Snake(8);
             gamestate = initGame();
             gamecount = 1;
             break;
         }
 
-        case pregame:
-        {
+        case pregame: {
             Fred_The_Snake->createApple();
             Fred_The_Snake->print();
             gamestate = ingame;
             break;
         }
 
-        case ingame:
-        {
+        case ingame: {
             directionT dir;
             nodelay(stdscr, TRUE);
-            while (!Fred_The_Snake->CollidedIntoWall())
-            {
+            while (!Fred_The_Snake->CollidedIntoWall()) {
                 Fred_The_Snake->print();
                 char input;
                 usleep(100000);
-                if ((input = getch()) != ERR)
-                {
-                   //sterowanie
-                    switch(input)
-                    {
+                if ((input = getch()) != ERR) {
+                    // sterowanie
+                    switch (input) {
                     case 'w':
                         dir = up;
                         break;
@@ -338,52 +334,41 @@ int main(void)
                     case 'd':
                         dir = right;
                         break;
-                    case 'p':
-                    {
+                    case 'p': {
                         gamestate = stopped;
                         break;
                     }
                     }
-                    //wyjscie z petli for
-                    if (gamestate == end || gamestate == stopped) break;
+                    // wyjscie z petli for
+                    if (gamestate == end || gamestate == stopped)
+                        break;
                     Fred_The_Snake->changeDirection(dir);
                 }
                 Fred_The_Snake->move();
-                if (Fred_The_Snake->AteApple())
-                {
+                if (Fred_The_Snake->AteApple()) {
                     Fred_The_Snake->grow();
                     Fred_The_Snake->createApple();
                 }
                 clrScreen(120);
                 printf("\n\r");
-                printf("head   %d    %d\n\r", Fred_The_Snake->head.x, Fred_The_Snake->head.y);
-                printf("apple  %d    %d\n\r", Fred_The_Snake->apple.x, Fred_The_Snake->apple.y);
-                printf("length %d\n\r", (int)Fred_The_Snake->snake_body_vector->size());
+                printf("head   %d    %d\n\r",
+                       Fred_The_Snake->head.x,
+                       Fred_The_Snake->head.y);
+                printf("apple  %d    %d\n\r",
+                       Fred_The_Snake->apple.x,
+                       Fred_The_Snake->apple.y);
+                printf("length %d\n\r",
+                       (int)Fred_The_Snake->snake_body_vector->size());
             }
-            if (gamestate != end && gamestate != stopped)
-            {
-                clrScreen(120);
-                printf("Snake died\n\r");
-                printf("Score: %d\n\r", Fred_The_Snake->getScore());
-                gamestate = start;
-            }
+
             nodelay(stdscr, FALSE);
             break;
         }
 
-        case stopped:
-        {
+        case stopped: {
             nodelay(stdscr, FALSE);
             gamestate = initPauseScreen();
             break;
-        }
-
-        case end:
-        {
-            endwin();
-            printf("Ended\n\r");
-            printf("Score: %d\n\r", Fred_The_Snake->getScore());
-            return 0;
         }
         }
     }
